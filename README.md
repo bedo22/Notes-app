@@ -9,6 +9,7 @@ Live Demo -> https://notes-app-8wk.pages.dev/
 ![Vite](https://img.shields.io/badge/Vite-7.1.7-purple)
 ![Supabase](https://img.shields.io/badge/Supabase-Latest-green)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4.1.16-cyan)
+<img width="1883" height="925" alt="Screenshot 2025-11-20 182637" src="https://github.com/user-attachments/assets/aea488d9-2e43-43af-8080-c293485d0f05" />
 
 ---
 
