@@ -2,6 +2,8 @@
 
 > A modern, intuitive note-taking application with folder organization and real-time search.
 
+Live Demo -> https://notes-app-8wk.pages.dev/
+
 ![React](https://img.shields.io/badge/React-19.1.1-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)
 ![Vite](https://img.shields.io/badge/Vite-7.1.7-purple)
