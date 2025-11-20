@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
 
 interface AddNoteFormProps {
   selectedFolderId: string | null;
@@ -30,7 +31,12 @@ export function AddNoteForm({selectedFolderId, onNoteAdded}: AddNoteFormProps) {
 
       async function addNote(e: React.FormEvent) {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim()) {
+      toast.error("Title required", {
+        description: "Please enter a note title",
+      });
+      return;
+    }
     
     setLoading(true);
     try {
@@ -43,8 +49,16 @@ export function AddNoteForm({selectedFolderId, onNoteAdded}: AddNoteFormProps) {
       
       if (error) {
         console.error("Error adding note:", error);
+        toast.error("Failed to create note", {
+          description: error.message,
+        });
         return;
       }
+
+      // Success!
+      toast.success("Note created!", {
+        description: `"${title}" has been added successfully.`,
+      });
       
       // Reset form and close dialog
       setTitle("");
@@ -55,6 +69,9 @@ export function AddNoteForm({selectedFolderId, onNoteAdded}: AddNoteFormProps) {
       await onNoteAdded();
     } catch (error) {
       console.error("Error adding note:", error);
+      toast.error("Failed to create note", {
+        description: "An unexpected error occurred",
+      });
     } finally {
       setLoading(false);
     }

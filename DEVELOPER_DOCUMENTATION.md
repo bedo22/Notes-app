@@ -14,11 +14,12 @@
 6. [Database Schema](#database-schema)
 7. [Authentication Flow](#authentication-flow)
 8. [Component Guide](#component-guide)
-9. [Setup & Installation](#setup--installation)
-10. [Environment Variables](#environment-variables)
-11. [Available Scripts](#available-scripts)
-12. [Code Patterns & Conventions](#code-patterns--conventions)
-13. [Troubleshooting](#troubleshooting)
+9. [Toast Notifications](#toast-notifications)
+10. [Setup & Installation](#setup--installation)
+11. [Environment Variables](#environment-variables)
+12. [Available Scripts](#available-scripts)
+13. [Code Patterns & Conventions](#code-patterns--conventions)
+14. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -55,6 +56,7 @@
 - **Radix UI** - Headless, accessible component primitives
   - Dialog, Label, ScrollArea, Select, Separator, Slot, Tabs
 - **shadcn/ui** - Pre-built components using Radix UI
+- **Sonner** - Beautiful toast notifications library
 - **lucide-react** - Beautiful, consistent icon library
 
 ### **Backend & Database**
@@ -241,6 +243,8 @@ notes-app/
 - ✅ Responsive design (works on mobile, tablet, desktop)
 - ✅ Dark mode with toggle button
 - ✅ Dark mode preference persistence (localStorage)
+- ✅ Toast notifications (Sonner) for user feedback
+- ✅ Non-intrusive success/error messages
 - ✅ Note preview truncation (line-clamp-2)
 - ✅ Relative timestamps ("2 hours ago")
 - ✅ Loading states
@@ -560,6 +564,95 @@ These are shadcn/ui components built on Radix UI primitives. They are:
 
 ---
 
+## 🔔 Toast Notifications
+
+QuickNotes uses **Sonner** for beautiful, non-intrusive toast notifications throughout the application.
+
+### **Implementation**
+
+**Setup (main.tsx):**
+```tsx
+import { Toaster } from 'sonner';
+
+<AuthProvider>
+  <RouterProvider router={router} />
+  <Toaster position="top-right" richColors />
+</AuthProvider>
+```
+
+### **Usage Patterns**
+
+**Success Notifications:**
+```tsx
+import { toast } from 'sonner';
+
+toast.success("Note created!", {
+  description: `"${title}" has been added successfully.`,
+});
+```
+
+**Error Notifications:**
+```tsx
+toast.error("Failed to create note", {
+  description: error.message,
+});
+```
+
+**Validation Feedback:**
+```tsx
+if (!title.trim()) {
+  toast.error("Title required", {
+    description: "Please enter a note title",
+  });
+  return;
+}
+```
+
+### **Where Toasts Are Used**
+
+1. **Authentication (Auth.tsx)**
+   - Sign in success/failure
+   - Sign up success/failure
+   - Welcome messages
+
+2. **Note Management (AddNoteForm.tsx, NoteDetail.tsx)**
+   - Note creation success/failure
+   - Note update confirmation
+   - Note deletion confirmation
+   - Validation errors
+
+3. **Folder Management (FolderList.tsx)**
+   - Folder creation success/failure
+   - Folder rename confirmation
+   - Folder deletion confirmation
+   - Validation errors
+
+### **Benefits**
+
+- ✅ **Non-blocking** - Users can continue working while toasts display
+- ✅ **Auto-dismiss** - Toasts automatically disappear after a few seconds
+- ✅ **Stackable** - Multiple toasts can appear simultaneously
+- ✅ **Accessible** - Built with keyboard navigation and screen reader support
+- ✅ **Customizable** - Position, duration, and styling can be adjusted
+
+### **Customization Options**
+
+The Toaster component in `main.tsx` can be customized:
+
+```tsx
+<Toaster 
+  position="top-right"      // top-left, top-center, bottom-right, etc.
+  richColors                // Enables colored toasts
+  expand={false}            // Compact toasts
+  duration={4000}           // Display duration in milliseconds
+  closeButton               // Show close button on each toast
+/>
+```
+
+For detailed implementation guide, see **[SONNER_GUIDE.md](./SONNER_GUIDE.md)**.
+
+---
+
 ## ⚙️ Setup & Installation
 
 ### **Prerequisites:**
@@ -827,7 +920,7 @@ className={cn(
 ## 🚀 Next Steps for Development
 
 ### **Immediate Improvements:**
-- [ ] Add toast notifications for success/error messages
+- [x] ~~Add toast notifications for success/error messages~~ ✅ **Implemented with Sonner**
 - [ ] Add note sorting options (by date, title, etc.)
 - [ ] Add rich text editor (TipTap, Quill)
 - [ ] Add note tags/labels

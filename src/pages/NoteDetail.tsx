@@ -24,6 +24,7 @@ import {
 } from "../components/ui/select";
 import { formatDistanceToNow } from "date-fns";
 import { ArrowLeft, Save, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 const NoteDetail = () => {
     const {id} = useParams();
@@ -50,6 +51,9 @@ const NoteDetail = () => {
 
     if (error) {
       console.error("Error fetching note:", error);
+      toast.error("Failed to load note", {
+        description: error.message,
+      });
     } else {
       setNote(data);
       setTitle(data.title);
@@ -72,6 +76,12 @@ const NoteDetail = () => {
 
   async function handleUpdate() {
     if (!id) return;
+    if (!title.trim()) {
+      toast.error("Title required", {
+        description: "Please enter a note title",
+      });
+      return;
+    }
     const { error } = await supabase
       .from("notes")
       .update({
@@ -81,10 +91,15 @@ const NoteDetail = () => {
       })
       .eq("id", id);
 
-    if (error) {
+     if (error) {
       console.error("Error updating note:", error);
+      toast.error("Failed to update note", {
+        description: error.message,
+      });
     } else {
-      alert("Note updated successfully!");
+      toast.success("Note saved!", {
+        description: "Your changes have been saved successfully.",
+      });
     }
   }
 
@@ -94,7 +109,13 @@ const NoteDetail = () => {
 
     if (error) {
       console.error("Error deleting note:", error);
+      toast.error("Failed to delete note", {
+        description: error.message,
+      });
     } else {
+      toast.success("Note deleted", {
+        description: "The note has been permanently deleted.",
+      });
       navigate("/");
     }
   }

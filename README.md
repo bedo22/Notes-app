@@ -19,6 +19,7 @@ Live Demo -> https://notes-app-8wk.pages.dev/
 - 🔍 **Real-time Search** - Search notes by title or content instantly
 - 🎨 **Dark Mode** - Beautiful dark theme with persistent preference
 - 🔐 **User Authentication** - Secure login with Supabase Auth
+- 🔔 **Toast Notifications** - Non-intrusive feedback for all user actions
 - 📱 **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
 - ⚡ **Fast Performance** - Built with Vite for lightning-fast development and production
 
@@ -33,6 +34,7 @@ Live Demo -> https://notes-app-8wk.pages.dev/
 - **Tailwind CSS** - Utility-first CSS framework
 - **shadcn/ui** - Beautiful, accessible components built on Radix UI
 - **React Router** - Client-side routing
+- **Sonner** - Beautiful toast notifications for user feedback
 - **date-fns** - Modern date utility library
 - **lucide-react** - Beautiful icon library
 
@@ -44,6 +46,14 @@ Live Demo -> https://notes-app-8wk.pages.dev/
   - Auto-generated RESTful API
 
 ---
+### **Screenshots of the Notes-app**
+<img width="1920" height="954" alt="Screenshot 2025-11-20 064314" src="https://github.com/user-attachments/assets/cf04fe2e-b7a6-46d1-9563-53e91e79f32f" />
+<img width="1920" height="954" alt="Screenshot 2025-11-20 064530" src="https://github.com/user-attachments/assets/bd1ca0f0-0e8e-41af-88ce-f80945dea35c" />
+<img width="1906" height="947" alt="Screenshot 2025-11-20 064632" src="https://github.com/user-attachments/assets/ead514ef-c1d8-4f07-8ee3-b79d9c4b922f" />
+<img width="1883" height="943" alt="Screenshot 2025-11-20 064703" src="https://github.com/user-attachments/assets/3b16fae8-4481-45d7-bfe3-d0963062618b" />
+
+---
+
 ### **Screenshots of the Notes-app**
 <img width="1920" height="954" alt="Screenshot 2025-11-20 064314" src="https://github.com/user-attachments/assets/cf04fe2e-b7a6-46d1-9563-53e91e79f32f" />
 <img width="1920" height="954" alt="Screenshot 2025-11-20 064530" src="https://github.com/user-attachments/assets/bd1ca0f0-0e8e-41af-88ce-f80945dea35c" />
@@ -192,6 +202,7 @@ See `DEVELOPER_DOCUMENTATION.md` for complete schema and SQL.
 ### **UI/UX**
 - Clean, modern interface
 - Dark mode with toggle
+- Toast notifications (Sonner)
 - Responsive design
 - Keyboard shortcuts
 - Loading states

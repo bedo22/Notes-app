@@ -6,13 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   
   const { signInWithEmail, signUp } = useAuth();
   const navigate = useNavigate();
@@ -20,18 +19,23 @@ export default function Auth() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setMessage("");
 
     try {
       const { error } = await signInWithEmail(email, password);
       if (error) {
-        setError(error.message);
+        toast.error("Sign in failed", {
+          description: error.message,
+        });
       } else {
+        toast.success("Welcome back!", {
+          description: "You have successfully signed in.",
+        });
         navigate("/");
       }
     } catch (err) {
-      setError("An unexpected error occurred");
+      toast.error("Sign in failed", {
+        description: "An unexpected error occurred",
+      });
     } finally {
       setLoading(false);
     }
@@ -40,18 +44,24 @@ export default function Auth() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setMessage("");
 
     try {
       const { error } = await signUp(email, password);
       if (error) {
-        setError(error.message);
+        toast.error("Sign up failed", {
+          description: error.message,
+        });
       } else {
-        setMessage("Account was created");
+        toast.success("Account created!", {
+          description: "Your account has been successfully created.",
+        });
+        setEmail("");
+        setPassword("");
       }
     } catch (err) {
-      setError("An unexpected error occurred");
+      toast.error("Sign up failed", {
+        description: "An unexpected error occurred",
+      });
     } finally {
       setLoading(false);
     }
@@ -95,8 +105,6 @@ export default function Auth() {
                     required
                   />
                 </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
-                {message && <p className="text-sm text-green-500">{message}</p>}
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Signing in..." : "Sign In"}
                 </Button>
@@ -128,8 +136,6 @@ export default function Auth() {
                     minLength={6}
                   />
                 </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
-                {message && <p className="text-sm text-green-500">{message}</p>}
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Creating account..." : "Sign Up"}
                 </Button>

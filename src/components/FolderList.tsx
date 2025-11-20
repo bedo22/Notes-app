@@ -17,6 +17,7 @@ import {
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { FolderPlus, FolderEdit, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 type Props = {
   selectedFolderId: string | null;           // currently selected folder id
@@ -37,7 +38,12 @@ export const FolderList = ({ selectedFolderId, onSelectFolder }: Props) => {
     const [folderToEdit, setFolderToEdit] = useState<Folder | null>(null);
 
     async function handleAddFolder() {
-      if (!newFolderName.trim()) return;
+      if (!newFolderName.trim()) {
+        toast.error("Folder name required", {
+          description: "Please enter a folder name",
+        });
+        return;
+      }
 
       const {
         data: { user },
@@ -53,7 +59,13 @@ export const FolderList = ({ selectedFolderId, onSelectFolder }: Props) => {
 
       if (error) {
         console.error("Error creating folder:", error);
+        toast.error("Failed to create folder", {
+          description: error.message,
+        });
       } else {
+        toast.success("Folder created!", {
+          description: `"${newFolderName.trim()}" has been added.`,
+        });
         fetchFolders();
         setNewFolderName("");
         setIsAddDialogOpen(false);
@@ -61,7 +73,12 @@ export const FolderList = ({ selectedFolderId, onSelectFolder }: Props) => {
     }
 
     async function handleRenameFolder() {
-      if (!folderToEdit || !renameFolderName.trim()) return;
+      if (!folderToEdit || !renameFolderName.trim()) {
+        toast.error("Folder name required", {
+          description: "Please enter a folder name",
+        });
+        return;
+      }
 
       const { error } = await supabase
         .from("folders")
@@ -70,7 +87,13 @@ export const FolderList = ({ selectedFolderId, onSelectFolder }: Props) => {
 
       if (error) {
         console.error("Error renaming folder:", error);
+        toast.error("Failed to rename folder", {
+          description: error.message,
+        });
       } else {
+        toast.success("Folder renamed!", {
+          description: `Renamed to "${renameFolderName.trim()}"`,
+        });
         fetchFolders();
         setRenameFolderName("");
         setFolderToEdit(null);
@@ -89,6 +112,9 @@ export const FolderList = ({ selectedFolderId, onSelectFolder }: Props) => {
 
       if (notesError) {
         console.error("Error updating notes:", notesError);
+        toast.error("Failed to delete folder", {
+          description: "Could not move notes to 'All Notes'",
+        });
         return;
       }
 
@@ -100,6 +126,9 @@ export const FolderList = ({ selectedFolderId, onSelectFolder }: Props) => {
 
       if (error) {
         console.error("Error deleting folder:", error);
+        toast.error("Failed to delete folder", {
+          description: error.message,
+        });
       } else {
         if (selectedFolderId === folderToEdit.id) {
           onSelectFolder(null);
